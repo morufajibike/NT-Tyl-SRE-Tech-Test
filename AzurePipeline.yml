@@ -1,0 +1,59 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  terraformVersion: '1.6.0'
+  sonarcloudServiceConnection: '<your-sonarcloud-service-connection>'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+
+- script: |
+    wget https://releases.hashicorp.com/terraform/$(terraformVersion)/terraform_$(terraformVersion)_linux_amd64.zip
+    unzip terraform_$(terraformVersion)_linux_amd64.zip
+    sudo mv terraform /usr/local/bin/
+    terraform --version
+  displayName: 'Install Terraform'
+
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: '$(azureServiceConnection)'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac-3-tier'
+    environmentServiceNameAzureRM: '$(azureServiceConnection)'
+
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/iac-3-tier'
+    environmentServiceNameAzureRM: '$(azureServiceConnection)'
+    allowTelemetryCollection: true
+    varFile: '$(System.DefaultWorkingDirectory)/iac-3-tier/terraform.tfvars'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: '$(sonarcloudServiceConnection)'
+    organization: 'your-organization'
+    scannerMode: 'CLI'
+
+- script: |
+    # Run your tests and validation commands here
+    # For example:
+    # npm install
+    # npm test
+    # sonar-scanner
+  displayName: 'Run Tests and Validation'
+
+- task: SonarCloudAnalyze@1
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'

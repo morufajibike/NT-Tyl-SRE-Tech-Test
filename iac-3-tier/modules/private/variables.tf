@@ -28,9 +28,9 @@ variable "vnet_address_space" {
 }
 
 variable "subnet_address_prefixes" {
-    description = "The address prefixes to use for the subnets"
-    type        = list(string)
-    default     = ["10.0.1.0/24"]
+  description = "The address prefixes to use for the subnets"
+  type        = list(string)
+  default     = ["10.0.1.0/24"]
 }
 
 variable "route_next_hop_in_ip_address" {
