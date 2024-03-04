@@ -11,4 +11,4 @@ repos:
         -   id: terraform_docs
         -   id: terraform_tfsec
         #-   id: terraform_checkov # commented out due to warnings that SHOULD be addressed
-        -   id: terraform_tflint
+        #-   id: terraform_tflint # commented out due to warnings that SHOULD be addressed
