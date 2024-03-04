@@ -16,4 +16,4 @@ A 3-tier architecture is a software architecture pattern that divides an applica
 - Fix pre-commit hook terraform_docs not populating docs tags.
 - Draw a sketch of the architecture using 3-tier.
 - Update the IaC code to include appropriate resources in application, presentation and data tiers.
-- Update the IaC code to include resources for High Availability, Resource based access control (RBAC), Security (Encryption in transit and at rest, WAF) Observability and Fault tolerance(Auto-scaling).
+- Update the IaC code to include resources for High Availability (Slots, appropriate SKU), Resource based access control (RBAC), Security (Encryption in transit and at rest, WAF) Observability (Application Insights, Prometheus, Grafana) and Fault tolerance(Auto-scaling).
